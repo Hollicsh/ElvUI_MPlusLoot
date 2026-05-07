@@ -9,4 +9,5 @@
 ## SavedVariables: ElvUIMPlusLootDB
 ## IconTexture: Interface\AddOns\ElvUI_MPlusLoot\Media\Logo
 
+Locales\Locales.lua
 ElvUI_MPlusLoot.lua

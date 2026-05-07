@@ -2,6 +2,8 @@
 -- Retail ElvUI plugin: shows Mythic+ end chest loot in an ElvUI-styled movable window.
 
 local addonName = ...
+local addon = _G.ElvUIMPlusLoot or {}
+local T = addon.T
 
 local E, L, V, P, G = unpack(ElvUI)
 local EP = LibStub and LibStub("LibElvUIPlugin-1.0", true)
@@ -19,7 +21,7 @@ local lootWindowOpenQueued = false
 -- Set ENABLE_DEBUG_COMMAND to true locally when you need /mplootdebug for troubleshooting.
 -- Set ENABLE_TEST_COMMANDS to true locally when you want /mplootitem and /mplootfake available.
 local ENABLE_DEBUG_COMMAND = false
-local ENABLE_TEST_COMMANDS = false
+local ENABLE_TEST_COMMANDS = true
 local debugMode = false
 local slashCommandsRegistered = false
 
@@ -55,56 +57,6 @@ local function DebugPrint(msg)
     if debugMode then
         Print("DEBUG: " .. tostring(msg))
     end
-end
-
--- Localization
--- deDE = German client / DACH region
--- everything else = English fallback for international release
-local CLIENT_LOCALE = GetLocale()
-
-local LOCALES = {
-    deDE = {
-        title = "Mythic+ Endkisten-Loot",
-        headerItem = "Gegenstand",
-        headerIlvl = "GS",
-        headerTrack = "Aufwertung",
-        headerLooter = "Spieler",
-        whisper = "Flüstern",
-        noLoot = "Noch kein Endkisten-Loot erkannt.",
-        debugEnabled = "Debug-Modus aktiviert.",
-        debugDisabled = "Debug-Modus deaktiviert.",
-        loaded = "geladen. /mploot oder /mplusloot zum Öffnen.",
-        testModeActive = "Testmodus aktiv. Nutze /mplootitem oder /mplootfake für Testitems.",
-        noTestItems = "Keine angelegten Testitems gefunden.",
-        noFakeItems = "Keine angelegten Items für /mplootfake gefunden.",
-        fakeLootSimulated = "%d Fake-Lootmeldungen simuliert.",
-        testItemsSimulated = "%d zufällige Testitems simuliert.",
-        whisperCombatBlocked = "Flüstern kann während des Kampfes nicht geöffnet werden.",
-    },
-    enUS = {
-        title = "Mythic+ End Chest Loot",
-        headerItem = "Item",
-        headerIlvl = "iLvl",
-        headerTrack = "Track",
-        headerLooter = "Looter",
-        whisper = "Whisper",
-        noLoot = "No end chest loot detected yet.",
-        debugEnabled = "Debug mode enabled.",
-        debugDisabled = "Debug mode disabled.",
-        loaded = "loaded. Use /mploot or /mplusloot to open.",
-        testModeActive = "Test mode active. Use /mplootitem or /mplootfake for test items.",
-        noTestItems = "No equipped test items found.",
-        noFakeItems = "No equipped items found for /mplootfake.",
-        fakeLootSimulated = "%d fake loot messages simulated.",
-        testItemsSimulated = "%d random test items simulated.",
-        whisperCombatBlocked = "Cannot open whisper during combat.",
-    },
-}
-
-local function T(key)
-    local localeKey = CLIENT_LOCALE == "deDE" and "deDE" or "enUS"
-    local localeTable = LOCALES[localeKey] or LOCALES.enUS
-    return localeTable[key] or LOCALES.enUS[key] or key
 end
 
 local function ApplyFont(fontString, size, outline)
