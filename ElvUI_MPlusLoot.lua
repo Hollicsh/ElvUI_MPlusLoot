@@ -4,6 +4,10 @@
 local addonName = ...
 local addon = _G.ElvUIMPlusLoot or {}
 local T = addon.T
+local Utils = addon.Utils or {}
+local TrimText = Utils.TrimText
+local StripChatMarkup = Utils.StripChatMarkup
+local NormalizeName = Utils.NormalizeName
 
 local E, L, V, P, G = unpack(ElvUI)
 local EP = LibStub and LibStub("LibElvUIPlugin-1.0", true)
@@ -139,38 +143,6 @@ local function ApplyCyrillicPlayerFont(fontString, text, size, outline)
 end
 
 local FALLBACK_ITEM_ICON = 134400
-
-local function TrimText(value)
-    if type(value) ~= "string" then return nil end
-
-    value = value:gsub("^%s+", ""):gsub("%s+$", "")
-    if value == "" then return nil end
-
-    return value
-end
-
-local function StripChatMarkup(value)
-    if type(value) ~= "string" then return nil end
-
-    local playerFromLink = value:match("|Hplayer:[^|]+|h%[([^%]]+)%]|h")
-    value = playerFromLink or value
-    value = value:gsub("|c%x%x%x%x%x%x%x%x", "")
-    value = value:gsub("|r", "")
-    value = value:gsub("^%[", ""):gsub("%]$", "")
-
-    return TrimText(value)
-end
-
-local function NormalizeName(name)
-    local cleanName = StripChatMarkup(name)
-    if not cleanName then return nil end
-
-    if Ambiguate then
-        return Ambiguate(cleanName, "short")
-    end
-
-    return cleanName:match("^([^-]+)") or cleanName
-end
 
 local function GetUnitFullName(unit)
     if not unit or not UnitExists(unit) then return nil end
