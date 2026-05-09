@@ -4,6 +4,26 @@ All notable changes to this project will be documented in this file.
 
 ---
 
+## 0.1.1-alpha
+
+### Added
+
+- Added optional KeystoneLoot wishlist detection.
+- Items found on the KeystoneLoot wishlist are now marked in the loot window.
+- Added tooltip hint for KeystoneLoot wishlist items including tier labels such as Nice, Must or BiS.
+
+### Changed
+
+- Moved item relevance detection into a dedicated core module for future expansion.
+- Disabled internal test slash commands for the public release build.
+
+### Notes
+
+- KeystoneLoot integration is optional and read-only.
+- No KeystoneLoot files or data are copied or modified.
+
+---
+
 ## 0.1.0-alpha
 
 ### Added
@@ -37,6 +57,26 @@ All notable changes to this project will be documented in this file.
 # Änderungsprotokoll
 
 Alle wichtigen Änderungen an diesem Projekt werden in dieser Datei dokumentiert.
+
+---
+
+## 0.1.1-alpha
+
+### Neu
+
+- Optionale KeystoneLoot-Wunschlisten-Erkennung hinzugefügt.
+- Gegenstände auf der KeystoneLoot-Wunschliste werden jetzt im Lootfenster markiert.
+- Tooltip-Hinweis für KeystoneLoot-Wunschitems inklusive Tier-Anzeige wie Nett, Wichtig oder BiS ergänzt.
+
+### Geändert
+
+- Item-Relevanzlogik in ein eigenes Core-Modul ausgelagert, um spätere Erweiterungen vorzubereiten.
+- Interne Test-Slashcommands für die öffentliche Release-Version deaktiviert.
+
+### Hinweise
+
+- Die KeystoneLoot-Integration ist optional und nur lesend.
+- Es werden keine KeystoneLoot-Dateien oder Daten kopiert oder verändert.
 
 ---
 
