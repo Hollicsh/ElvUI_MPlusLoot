@@ -4,6 +4,22 @@ Alle wichtigen Änderungen an diesem Projekt werden in dieser Datei dokumentiert
 
 ---
 
+## 0.1.2-alpha
+
+### Hinzugefügt
+
+- README-Screenshots ergänzt.
+
+### Geändert
+
+- Kompatibilität mit WIM und modernen Retail-Itemlink-Farbcodes verbessert.
+
+### Korrigiert
+
+- Shift-Klick-Itemlinks aus dem Lootfenster behoben.
+
+---
+
 ## 0.1.1-alpha
 
 ### Neu

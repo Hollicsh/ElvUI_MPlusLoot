@@ -4,6 +4,22 @@ All notable changes to this project will be documented in this file.
 
 ---
 
+## 0.1.2-alpha
+
+### Added
+
+- Added README screenshots.
+
+### Changed
+
+- Improved compatibility with WIM and modern Retail item link color codes.
+
+### Fixed
+
+- Fixed Shift-click item link insertion from the loot window.
+
+---
+
 ## 0.1.1-alpha
 
 ### Added
