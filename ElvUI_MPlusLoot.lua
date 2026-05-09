@@ -526,6 +526,18 @@ local function AttachItemTooltip(widget)
 
         GameTooltip:SetOwner(owner, "ANCHOR_CURSOR")
         GameTooltip:SetHyperlink(owner.itemLink)
+
+        if owner.keystoneLootTier then
+            local tierLabel = MPL.GetKeystoneLootTierLabel and MPL:GetKeystoneLootTierLabel(owner.keystoneLootTier)
+            local tooltipText = T("keystoneLootWishlistTooltip")
+
+            if tierLabel then
+                tooltipText = tooltipText .. ": " .. tierLabel
+            end
+
+            GameTooltip:AddLine(tooltipText, 1, 0.82, 0)
+        end
+
         GameTooltip:Show()
     end)
 
@@ -543,6 +555,22 @@ local function MakeItemButton(parent, itemLink)
     button:SetScript("OnClick", LinkItemToChat)
     AttachItemTooltip(button)
     return button
+end
+
+function MPL:GetItemRelevance(itemLink)
+    if not itemLink or not self.GetKeystoneLootFavoriteTier then
+        return nil
+    end
+
+    local ok, tier = pcall(self.GetKeystoneLootFavoriteTier, self, itemLink)
+    tier = ok and tonumber(tier) or nil
+    if not tier or tier <= 0 then
+        return nil
+    end
+
+    return {
+        keystoneLootTier = tier,
+    }
 end
 
 local function CreateText(parent, text, size, justify)
@@ -644,6 +672,11 @@ end
 
 function MPL:CreateLootRow(parent, entry, index)
     local itemLink = entry.itemLink
+    local relevance = self:GetItemRelevance(itemLink)
+    local keystoneLootTier = relevance and relevance.keystoneLootTier
+    local markerOffset = 5
+    local itemIconOffset = 23
+    local itemTextWidth = 227
 
     local row = CreateFrame("Frame", nil, parent, "BackdropTemplate")
     row:SetTemplate("Default")
@@ -663,9 +696,23 @@ function MPL:CreateLootRow(parent, entry, index)
         return cell
     end
 
+    if keystoneLootTier then
+        row.wishlistButton = CreateFrame("Button", nil, row)
+        row.wishlistButton.itemLink = itemLink
+        row.wishlistButton.keystoneLootTier = keystoneLootTier
+        row.wishlistButton:SetSize(14, 14)
+        row.wishlistButton:SetPoint("LEFT", row, "LEFT", markerOffset, 0)
+        AttachItemTooltip(row.wishlistButton)
+
+        row.wishlistIcon = row.wishlistButton:CreateTexture(nil, "ARTWORK")
+        row.wishlistIcon:SetAllPoints(row.wishlistButton)
+        row.wishlistIcon:SetTexture("Interface\\TargetingFrame\\UI-RaidTargetingIcon_1")
+    end
+
     row.iconButton = MakeItemButton(row, itemLink)
+    row.iconButton.keystoneLootTier = keystoneLootTier
     row.iconButton:SetSize(22, 22)
-    row.iconButton:SetPoint("LEFT", row, "LEFT", 5, 0)
+    row.iconButton:SetPoint("LEFT", row, "LEFT", itemIconOffset, 0)
     row.iconButton:SetTemplate("Default")
 
     row.icon = row.iconButton:CreateTexture(nil, "ARTWORK")
@@ -679,8 +726,9 @@ function MPL:CreateLootRow(parent, entry, index)
     end
 
     row.itemButton = MakeItemButton(row, itemLink)
+    row.itemButton.keystoneLootTier = keystoneLootTier
     row.itemButton:SetPoint("LEFT", row.iconButton, "RIGHT", 6, 0)
-    row.itemButton:SetSize(245, 22)
+    row.itemButton:SetSize(itemTextWidth, 22)
 
     row.itemText = CreateText(row.itemButton, GetColoredItemText(itemLink), 12, "LEFT")
     row.itemText:SetAllPoints(row.itemButton)
