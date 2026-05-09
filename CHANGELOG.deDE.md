@@ -10,7 +10,7 @@ Alle wichtigen Änderungen an diesem Projekt werden in dieser Datei dokumentiert
 
 - Optionale KeystoneLoot-Wunschlisten-Erkennung hinzugefügt.
 - Gegenstände auf der KeystoneLoot-Wunschliste werden jetzt im Lootfenster markiert.
-- Tooltip-Hinweis für KeystoneLoot-Wunschitems inklusive Tier-Anzeige wie Nett, Wichtig oder BiS ergänzt.
+- Klargestellt, dass ElvUI M+ Loot keine zusätzliche eigene KeystoneLoot-Tooltip-Zeile hinzufügt.
 
 ### Geändert
 

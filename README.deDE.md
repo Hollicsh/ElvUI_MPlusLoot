@@ -13,7 +13,6 @@ Das Addon soll eine einfache Übersicht über Loot-Drops in Mythic+ Dungeons bie
 - Unterstützt englische und deutsche Clients
 - Optionale KeystoneLoot-Wunschlisten-Erkennung
 - Markiert KeystoneLoot-Wunschitems im Lootfenster
-- Ergänzt einen Tooltip-Hinweis für KeystoneLoot-Wunschitems mit Tier-Anzeige wie Nett, Wichtig oder BiS
 - Schlank und einfach zu bedienen
 
 ## Voraussetzungen
@@ -38,7 +37,9 @@ Nach der Installation ist keine zusätzliche Einrichtung notwendig.
 
 Das Plugin erkennt automatisch den Loot aus der Endkiste eines Mythic+ Dungeons und zeigt die erhaltenen Gegenstände der Gruppenmitglieder in einem übersichtlichen ElvUI-Fenster an.
 
-Wenn KeystoneLoot installiert ist und ein Gegenstand auf der KeystoneLoot-Wunschliste gefunden wird, wird der Gegenstand im Lootfenster markiert. Der Gegenstands-Tooltip zeigt einen KeystoneLoot-Wunschlisten-Hinweis mit dem erkannten Tier-Label.
+Wenn KeystoneLoot installiert ist und ein Gegenstand auf der KeystoneLoot-Wunschliste gefunden wird, wird der Gegenstand im Lootfenster markiert.
+
+KeystoneLoot kann bei installierter Integration eigene Tooltip-Informationen anzeigen, ElvUI M+ Loot fügt aber keine zusätzliche eigene Tooltip-Zeile hinzu.
 
 Die KeystoneLoot-Integration ist optional und nur lesend. Es werden keine KeystoneLoot-Dateien oder Daten kopiert oder verändert.
 

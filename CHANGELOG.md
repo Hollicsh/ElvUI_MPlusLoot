@@ -10,7 +10,7 @@ All notable changes to this project will be documented in this file.
 
 - Added optional KeystoneLoot wishlist detection.
 - Items found on the KeystoneLoot wishlist are now marked in the loot window.
-- Added tooltip hint for KeystoneLoot wishlist items including tier labels such as Nice, Must or BiS.
+- Clarified that ElvUI M+ Loot does not add an extra KeystoneLoot tooltip line.
 
 ### Changed
 

@@ -13,7 +13,6 @@ The addon is designed to provide a simple overview of loot drops during Mythic+ 
 - Supports English and German clients
 - Optional KeystoneLoot wishlist detection
 - Marks KeystoneLoot wishlist items in the loot window
-- Adds a tooltip hint for KeystoneLoot wishlist items with tier labels such as Nice, Must or BiS
 - Lightweight and easy to use
 
 ## Requirements
@@ -38,7 +37,9 @@ No additional setup is required after installation.
 
 The plugin automatically detects loot from the final chest of a Mythic+ dungeon and displays the received items from group members in a clean ElvUI-style window.
 
-If KeystoneLoot is installed and an item is found on the KeystoneLoot wishlist, the item is marked in the loot window. The item tooltip shows a KeystoneLoot wishlist hint with the detected tier label.
+If KeystoneLoot is installed and an item is found on the KeystoneLoot wishlist, the item is marked in the loot window.
+
+KeystoneLoot may add its own tooltip information when installed, but ElvUI M+ Loot does not add an extra tooltip line.
 
 The KeystoneLoot integration is optional and read-only. No KeystoneLoot files or data are copied or modified.
 
