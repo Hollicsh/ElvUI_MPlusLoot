@@ -344,6 +344,98 @@ local function GetColoredItemText(itemLink)
     return visual.name
 end
 
+local function IsCompleteChatItemLink(itemLink)
+    if type(itemLink) ~= "string" then return false end
+
+    local itemHyperlinkPattern = "|Hitem:%d+[^|]*|h%[[^%]]+%]|h|r$"
+
+    return itemLink:match("^|c%x%x%x%x%x%x%x%x" .. itemHyperlinkPattern) ~= nil
+        or itemLink:match("^|cn[%w_]+:" .. itemHyperlinkPattern) ~= nil
+end
+
+local function GetCompleteChatItemLinkFromQuery(itemQuery)
+    if not itemQuery then return nil end
+
+    local _, chatItemLink = GetItemInfoSafe(itemQuery)
+    if IsCompleteChatItemLink(chatItemLink) then
+        return chatItemLink
+    end
+
+    return nil
+end
+
+local function ExtractItemString(itemLink)
+    if type(itemLink) ~= "string" then return nil end
+
+    local cleanLink = TrimText(itemLink)
+    if not cleanLink then return nil end
+
+    return cleanLink:match("|H(item:%d+[^|]*)|h")
+        or cleanLink:match("^(item:%d+.*)$")
+end
+
+local function ExtractItemID(itemLink)
+    if type(itemLink) == "number" then
+        return itemLink
+    end
+
+    local itemString = ExtractItemString(itemLink)
+    if itemString then
+        return tonumber(itemString:match("^item:(%d+)"))
+    end
+
+    if type(itemLink) == "string" then
+        return tonumber(itemLink:match("^%s*(%d+)%s*$"))
+    end
+
+    return nil
+end
+
+local function GetSafeChatItemLink(itemLink)
+    if IsCompleteChatItemLink(itemLink) then
+        return itemLink
+    end
+
+    local chatItemLink = GetCompleteChatItemLinkFromQuery(itemLink)
+    if chatItemLink then
+        return chatItemLink
+    end
+
+    local itemString = ExtractItemString(itemLink)
+    chatItemLink = GetCompleteChatItemLinkFromQuery(itemString)
+    if chatItemLink then
+        return chatItemLink
+    end
+
+    local itemID = ExtractItemID(itemLink)
+    chatItemLink = GetCompleteChatItemLinkFromQuery(itemID)
+        or GetCompleteChatItemLinkFromQuery(itemID and ("item:" .. itemID))
+    if chatItemLink then
+        return chatItemLink
+    end
+
+    return nil
+end
+
+local function GetSafeItemPlainText(itemLink)
+    local visual = itemLink and ReadItemVisuals(itemLink)
+    if visual and visual.name then
+        return visual.name
+    end
+
+    if type(itemLink) == "string" then
+        local itemName = itemLink:match("|h%[([^%]]+)%]|h")
+        if itemName and itemName ~= "" then
+            return itemName
+        end
+
+        local safeText = StripChatMarkup(itemLink) or itemLink
+        return safeText:gsub("|", "")
+    end
+
+    return nil
+end
+
 local UPGRADE_TEXT_KEYS = {
     "trackName",
     "trackString",
@@ -451,15 +543,23 @@ local function LinkItemToChat(self, button)
     if not self.itemLink then return end
     if not IsModifiedClick("CHATLINK") then return end
 
+    local chatItemLink = GetSafeChatItemLink(self.itemLink)
+
+    if chatItemLink and HandleModifiedItemClick then
+        if HandleModifiedItemClick(chatItemLink) then
+            return
+        end
+    end
+
     local activeWindow = ChatEdit_GetActiveWindow()
-    if activeWindow then
-        ChatEdit_InsertLink(self.itemLink)
+    if activeWindow and chatItemLink then
+        ChatEdit_InsertLink(chatItemLink)
         return
     end
 
-    if DEFAULT_CHAT_FRAME and DEFAULT_CHAT_FRAME.editBox then
-        ChatEdit_ActivateChat(DEFAULT_CHAT_FRAME.editBox)
-        ChatEdit_InsertLink(self.itemLink)
+    local plainText = GetSafeItemPlainText(self.itemLink)
+    if activeWindow and plainText and plainText ~= "" then
+        ChatEdit_InsertLink(plainText)
     end
 end
 
@@ -826,7 +926,10 @@ end
 
 local function ExtractItemLinkFromLootMessage(text)
     if type(text) ~= "string" then return nil end
-    return text:match("|Hitem:%d+.-|h%[[^%]]+%]|h")
+
+    return text:match("|c%x%x%x%x%x%x%x%x|Hitem:%d+.-|h%[[^%]]+%]|h|r")
+        or text:match("|cn[%w_]+:|Hitem:%d+.-|h%[[^%]]+%]|h|r")
+        or text:match("|Hitem:%d+.-|h%[[^%]]+%]|h")
 end
 
 local function BuildLootEntryFromEvent(text, playerName)
