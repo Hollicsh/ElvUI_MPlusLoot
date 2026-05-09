@@ -15,6 +15,10 @@ The addon is designed to provide a simple overview of loot drops during Mythic+ 
 - Marks KeystoneLoot wishlist items in the loot window
 - Lightweight and easy to use
 
+## Screenshots
+
+![ElvUI M+ Loot screenshot](docs/images/MPLusEndChestLoot_en.png)
+
 ## Requirements
 
 - World of Warcraft Retail

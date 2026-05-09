@@ -15,6 +15,10 @@ Das Addon soll eine einfache Übersicht über Loot-Drops in Mythic+ Dungeons bie
 - Markiert KeystoneLoot-Wunschitems im Lootfenster
 - Schlank und einfach zu bedienen
 
+## Screenshots
+
+![ElvUI M+ Loot Screenshot](docs/images/MPLusEndChestLoot_ger.png)
+
 ## Voraussetzungen
 
 - World of Warcraft Retail
