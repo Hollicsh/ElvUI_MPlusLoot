@@ -13,3 +13,4 @@ Locales\Locales.lua
 Utils\Text.lua
 Utils\Units.lua
 ElvUI_MPlusLoot.lua
+Integrations\KeystoneLoot.lua

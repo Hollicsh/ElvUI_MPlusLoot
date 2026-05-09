@@ -24,6 +24,11 @@ local LOCALES = {
         fakeLootSimulated = "%d Fake-Lootmeldungen simuliert.",
         testItemsSimulated = "%d zufällige Testitems simuliert.",
         whisperCombatBlocked = "Flüstern kann während des Kampfes nicht geöffnet werden.",
+        keystoneLootTierNice = "Nett",
+        keystoneLootTierMust = "Wichtig",
+        keystoneLootTierBiS = "BiS",
+        keystoneLootWishlist = "KeystoneLoot-Wunschitem",
+        keystoneLootWishlistTooltip = "Auf KeystoneLoot-Wunschliste",
     },
     enUS = {
         title = "Mythic+ End Chest Loot",
@@ -42,6 +47,11 @@ local LOCALES = {
         fakeLootSimulated = "%d fake loot messages simulated.",
         testItemsSimulated = "%d random test items simulated.",
         whisperCombatBlocked = "Cannot open whisper during combat.",
+        keystoneLootTierNice = "Nice",
+        keystoneLootTierMust = "Must",
+        keystoneLootTierBiS = "BiS",
+        keystoneLootWishlist = "KeystoneLoot wishlist item",
+        keystoneLootWishlistTooltip = "On KeystoneLoot wishlist",
     },
 }
 
