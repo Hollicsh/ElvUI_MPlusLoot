@@ -28,7 +28,7 @@ local lootWindowOpenQueued = false
 -- Set ENABLE_DEBUG_COMMAND to true locally when you need /mplootdebug for troubleshooting.
 -- Set ENABLE_TEST_COMMANDS to true locally when you want /mplootitem and /mplootfake available.
 local ENABLE_DEBUG_COMMAND = false
-local ENABLE_TEST_COMMANDS = true
+local ENABLE_TEST_COMMANDS = false
 local debugMode = false
 local slashCommandsRegistered = false
 
