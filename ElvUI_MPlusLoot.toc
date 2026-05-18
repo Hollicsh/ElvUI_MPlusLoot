@@ -13,5 +13,8 @@ Locales\Locales.lua
 Utils\Text.lua
 Utils\Units.lua
 ElvUI_MPlusLoot.lua
+Modules\Tradeability.lua
+Modules\TradeabilityDebug.lua
+Modules\LootMessageDebug.lua
 Integrations\KeystoneLoot.lua
 Core\ItemRelevance.lua

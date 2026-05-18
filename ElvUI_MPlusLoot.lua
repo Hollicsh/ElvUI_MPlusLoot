@@ -22,6 +22,7 @@ local collectEndChestLoot = false
 local inMythicPlusDungeon = false
 local pendingRefresh = false
 local lootWindowOpenQueued = false
+local lootDebugSeq = 0
 
 -- Developer options
 -- Keep these false for public releases.
@@ -746,6 +747,8 @@ function MPL:CreateLootRow(parent, entry, index)
     local itemLink = entry.itemLink
     local relevance = self:GetItemRelevance(itemLink)
     local keystoneLootTier = relevance and relevance.keystoneLootTier
+    local tradeabilityState = select(1, self:GetItemTradeabilityInfo(itemLink, entry))
+    local isNotTradeable = tradeabilityState == "notTradeable"
     local markerOffset = 5
     local itemIconOffset = 23
     local itemTextWidth = 227
@@ -791,6 +794,12 @@ function MPL:CreateLootRow(parent, entry, index)
     row.icon:SetInside(row.iconButton)
     row.icon:SetTexture(GetItemIconSafe(itemLink))
     row.icon:SetTexCoord(0.08, 0.92, 0.08, 0.92)
+    if isNotTradeable then
+        if row.icon.SetDesaturated then
+            row.icon:SetDesaturated(true)
+        end
+        row.icon:SetVertexColor(0.65, 0.65, 0.65, 0.9)
+    end
 
     local visual = ReadItemVisuals(itemLink)
     if visual and visual.r then
@@ -802,12 +811,20 @@ function MPL:CreateLootRow(parent, entry, index)
     row.itemButton:SetPoint("LEFT", row.iconButton, "RIGHT", 6, 0)
     row.itemButton:SetSize(itemTextWidth, 22)
 
-    row.itemText = CreateText(row.itemButton, GetColoredItemText(itemLink), 12, "LEFT")
+    local itemText = isNotTradeable and (GetSafeItemPlainText(itemLink) or GetColoredItemText(itemLink)) or GetColoredItemText(itemLink)
+    row.itemText = CreateText(row.itemButton, itemText, 12, "LEFT")
     row.itemText:SetAllPoints(row.itemButton)
     row.itemText:SetWordWrap(false)
+    if isNotTradeable then
+        row.itemText:SetTextColor(0.62, 0.62, 0.62)
+    end
 
     row.ilvl = AddCell(tostring(GetActualItemLevel(itemLink) or ""), 286, 45)
     row.track = AddCell(GetUpgradeTrackText(itemLink), 340, 110)
+    if isNotTradeable then
+        row.ilvl:SetTextColor(0.62, 0.62, 0.62)
+        row.track:SetTextColor(0.62, 0.62, 0.62)
+    end
 
     local looterText = GetClassColoredName(entry.playerName)
     row.looter = AddCell("", 455, 90)
@@ -949,6 +966,9 @@ end
 function MPL:CHAT_MSG_LOOT(event, text, playerName)
     if not collectEndChestLoot then return end
 
+    lootDebugSeq = lootDebugSeq + 1
+    local debugSeq = lootDebugSeq
+
     local entry = BuildLootEntryFromEvent(text, playerName)
     if not entry then
         DebugPrint("Ignored loot message without usable item/player data.")
@@ -957,14 +977,28 @@ function MPL:CHAT_MSG_LOOT(event, text, playerName)
 
     local eligible = IsEligibleItem(entry.itemLink)
 
+    local lootMessageDebugInfo = self.GetLootMessageDebugInfo and self:GetLootMessageDebugInfo(text, entry.itemLink, eligible, debugSeq)
+    if lootMessageDebugInfo then
+        entry.lootKind = lootMessageDebugInfo.kind
+        entry.isBonusLoot = lootMessageDebugInfo.bonus == true
+        entry.lootPattern = lootMessageDebugInfo.pattern
+    end
+
+    if ENABLE_DEBUG_COMMAND and debugMode and lootMessageDebugInfo then
+        self:PrintLootMessageDebugInfo(lootMessageDebugInfo)
+    end
+
     DebugPrint("CHAT_MSG_LOOT event = " .. tostring(event))
-    DebugPrint("itemLink = " .. tostring(entry.itemLink))
-    DebugPrint("looterName = " .. tostring(entry.playerName))
+    DebugPrint("hasItemLink = " .. tostring(entry.itemLink ~= nil))
+    DebugPrint("looterName present = " .. tostring(entry.playerName ~= nil and entry.playerName ~= ""))
     DebugPrint("eligible = " .. tostring(eligible))
 
     if not eligible then return end
 
     table.insert(lootEntries, entry)
+    if ENABLE_DEBUG_COMMAND and debugMode and self.PrintLootEntryDebugInfo then
+        self:PrintLootEntryDebugInfo(debugSeq, entry.itemLink)
+    end
     QueueOpenLootWindow()
     QueueWindowRefresh()
 end
@@ -1082,7 +1116,7 @@ function MPL:RegisterSlashCommands()
                     fakeText = string.format(pattern, fakeName, itemLink)
                 end
 
-                DebugPrint("Fake loot fired: " .. fakeText)
+                DebugPrint("Fake loot fired: hasItemLink=" .. tostring(ExtractItemLinkFromLootMessage(fakeText) ~= nil))
                 MPL:CHAT_MSG_LOOT("CHAT_MSG_LOOT", fakeText, nil)
             end
 
@@ -1172,6 +1206,59 @@ function MPL:RegisterSlashCommands()
         SlashCmdList["MPLUSLOOTDEBUG"] = function()
             debugMode = not debugMode
             Print(debugMode and T("debugEnabled") or T("debugDisabled"))
+        end
+
+        SLASH_MPLUSLOOTTRADE1 = "/mploottrade"
+        SlashCmdList["MPLUSLOOTTRADE"] = function(msg)
+            if #lootEntries == 0 then
+                Print("[M+ Loot Trade] no loot entries")
+                return
+            end
+
+            local mode = TrimText(msg)
+            mode = mode and mode:lower() or ""
+            local includeDebugLines = mode == "detail" or mode == "dump"
+
+            for index, entry in ipairs(lootEntries) do
+                local itemLink = entry and entry.itemLink
+                local itemID = ExtractItemID(itemLink)
+                local itemName = GetSafeItemPlainText(itemLink) or tostring(itemLink or "unknown")
+                local state, reason = MPL:GetItemTradeabilityInfo(itemLink, entry)
+
+                Print(string.format(
+                    "[M+ Loot Trade] #%d itemID=%s item=%s state=%s reason=%s",
+                    index,
+                    tostring(itemID or "-"),
+                    tostring(itemName),
+                    tostring(state or "unknown"),
+                    tostring(reason or "unknown")
+                ))
+
+                if includeDebugLines then
+                    local lines, totalLines = MPL:GetItemTradeabilityDebugLines(itemLink, mode)
+                    local prefix = mode == "dump" and "[M+ Loot Trade Dump]" or "[M+ Loot Trade Detail]"
+                    if not lines then
+                        Print(string.format("%s #%d itemID=%s no tooltip info", prefix, index, tostring(itemID or "-")))
+                    else
+                        if mode == "dump" then
+                            Print(string.format("%s #%d itemID=%s lines=%d", prefix, index, tostring(itemID or "-"), tonumber(totalLines) or 0))
+                        elseif #lines == 0 then
+                            Print(string.format("%s #%d itemID=%s no relevant tooltip lines", prefix, index, tostring(itemID or "-")))
+                        end
+
+                        for _, line in ipairs(lines) do
+                            Print(string.format(
+                                "%s #%d.%d type=%s text=%s",
+                                prefix,
+                                index,
+                                tonumber(line.index) or 0,
+                                tostring(line.lineType or "-"),
+                                tostring(line.text or "")
+                            ))
+                        end
+                    end
+                end
+            end
         end
     end
 end
