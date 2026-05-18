@@ -627,6 +627,11 @@ local function AttachItemTooltip(widget)
 
         GameTooltip:SetOwner(owner, "ANCHOR_CURSOR")
         GameTooltip:SetHyperlink(owner.itemLink)
+        if owner.isBonusLoot then
+            GameTooltip:AddLine(" ")
+            GameTooltip:AddLine(T("bonusLootTooltipTitle"), 1, 0.67, 0.18)
+            GameTooltip:AddLine(T("bonusLootTooltipHint"), 1, 0.25, 0.25, true)
+        end
         GameTooltip:Show()
     end)
 
@@ -774,6 +779,7 @@ function MPL:CreateLootRow(parent, entry, index)
     if keystoneLootTier then
         row.wishlistButton = CreateFrame("Button", nil, row)
         row.wishlistButton.itemLink = itemLink
+        row.wishlistButton.isBonusLoot = entry.isBonusLoot == true
         row.wishlistButton.keystoneLootTier = keystoneLootTier
         row.wishlistButton:SetSize(14, 14)
         row.wishlistButton:SetPoint("LEFT", row, "LEFT", markerOffset, 0)
@@ -785,6 +791,7 @@ function MPL:CreateLootRow(parent, entry, index)
     end
 
     row.iconButton = MakeItemButton(row, itemLink)
+    row.iconButton.isBonusLoot = entry.isBonusLoot == true
     row.iconButton.keystoneLootTier = keystoneLootTier
     row.iconButton:SetSize(22, 22)
     row.iconButton:SetPoint("LEFT", row, "LEFT", itemIconOffset, 0)
@@ -807,6 +814,7 @@ function MPL:CreateLootRow(parent, entry, index)
     end
 
     row.itemButton = MakeItemButton(row, itemLink)
+    row.itemButton.isBonusLoot = entry.isBonusLoot == true
     row.itemButton.keystoneLootTier = keystoneLootTier
     row.itemButton:SetPoint("LEFT", row.iconButton, "RIGHT", 6, 0)
     row.itemButton:SetSize(itemTextWidth, 22)

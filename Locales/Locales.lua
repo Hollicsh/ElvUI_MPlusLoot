@@ -29,6 +29,8 @@ local LOCALES = {
         keystoneLootTierBiS = "BiS",
         keystoneLootWishlist = "KeystoneLoot-Wunschitem",
         keystoneLootWishlistTooltip = "Auf KeystoneLoot-Wunschliste",
+        bonusLootTooltipTitle = "ElvUI M+ Loot: Bonusbeute",
+        bonusLootTooltipHint = "Wahrscheinlich nicht handelbar",
     },
     enUS = {
         title = "Mythic+ End Chest Loot",
@@ -52,6 +54,8 @@ local LOCALES = {
         keystoneLootTierBiS = "BiS",
         keystoneLootWishlist = "KeystoneLoot wishlist item",
         keystoneLootWishlistTooltip = "On KeystoneLoot wishlist",
+        bonusLootTooltipTitle = "ElvUI M+ Loot: Bonus loot",
+        bonusLootTooltipHint = "Likely not tradeable",
     },
 }
 
