@@ -835,7 +835,18 @@ function MPL:CreateLootRow(parent, entry, index)
     end
 
     local looterText = GetClassColoredName(entry.playerName)
-    row.looter = AddCell("", 455, 90)
+    local realmFlagInfo = self.GetRealmFlagInfo and self:GetRealmFlagInfo(entry.playerName)
+    local looterX = 455
+    local looterWidth = 90
+
+    if realmFlagInfo and realmFlagInfo.code then
+        row.realmFlag = row:CreateTexture(nil, "ARTWORK")
+        row.realmFlag:SetSize(16, 10)
+        row.realmFlag:SetPoint("LEFT", row, "LEFT", looterX - 28, 0)
+        row.realmFlag:SetTexture("Interface\\AddOns\\ElvUI_MPlusLoot\\Media\\Flags\\" .. realmFlagInfo.code .. ".tga")
+    end
+
+    row.looter = AddCell("", looterX, looterWidth)
     ApplyCyrillicPlayerFont(row.looter, looterText, 12)
 
     row.whisper = CreateFrame("Button", nil, row, "UIPanelButtonTemplate")
