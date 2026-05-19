@@ -4,6 +4,23 @@ All notable changes to this project will be documented in this file.
 
 ---
 
+## 0.2.0-alpha
+
+### Added
+
+- Added realm-language flags in the loot window.
+- Added region-safe EU realm-language mapping.
+- Added bonus-loot detection and likely-not-tradeable marking.
+- Added a bonus-loot tooltip hint.
+- Added flag assets and credits.
+
+### Notes
+
+- Realm-language flags indicate the realm language or locale, not the player's nationality.
+- Internal debug and test commands remain disabled for release builds.
+
+---
+
 ## 0.1.2-alpha
 
 ### Added

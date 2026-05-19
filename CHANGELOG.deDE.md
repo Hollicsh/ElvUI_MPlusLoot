@@ -4,6 +4,23 @@ Alle wichtigen Änderungen an diesem Projekt werden in dieser Datei dokumentiert
 
 ---
 
+## 0.2.0-alpha
+
+### Hinzugefügt
+
+- Realm-Sprachflaggen im Lootfenster hinzugefügt.
+- Regionssicheres EU-Realm-Sprachmapping hinzugefügt.
+- Bonusbeute-Erkennung und Markierung als wahrscheinlich nicht handelbar hinzugefügt.
+- Tooltip-Hinweis für Bonusbeute hinzugefügt.
+- Flaggen-Assets und Credits hinzugefügt.
+
+### Hinweise
+
+- Realm-Sprachflaggen zeigen die Realm-Sprache bzw. Realm-Locale an, nicht die Nationalität des Spielers.
+- Interne Debug- und Testbefehle bleiben für Release-Versionen deaktiviert.
+
+---
+
 ## 0.1.2-alpha
 
 ### Hinzugefügt

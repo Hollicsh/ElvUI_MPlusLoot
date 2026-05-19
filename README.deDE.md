@@ -13,6 +13,8 @@ Das Addon soll eine einfache Übersicht über Loot-Drops in Mythic+ Dungeons bie
 - Unterstützt englische und deutsche Clients
 - Optionale KeystoneLoot-Wunschlisten-Erkennung
 - Markiert KeystoneLoot-Wunschitems im Lootfenster
+- Erkennt Bonusbeute und markiert sie als wahrscheinlich nicht handelbar
+- Zeigt kleine EU-Realm-Sprachflaggen neben Spielernamen an
 - Schlank und einfach zu bedienen
 
 ## Screenshots
@@ -47,17 +49,24 @@ KeystoneLoot kann bei installierter Integration eigene Tooltip-Informationen anz
 
 Die KeystoneLoot-Integration ist optional und nur lesend. Es werden keine KeystoneLoot-Dateien oder Daten kopiert oder verändert.
 
+Aus Loot-Nachrichten erkannte Bonusbeute wird als wahrscheinlich nicht handelbar behandelt. Diese Gegenstände werden im Lootfenster abgedunkelt, und ein Tooltip-Hinweis erklärt, warum der Gegenstand so angezeigt wird.
+
+Das Lootfenster kann kleine Realm-Sprachflaggen neben Spielernamen anzeigen. Diese Flaggen zeigen die Realm-Sprache bzw. Realm-Locale an, nicht die Nationalität des Spielers. Realm-Sprachflaggen sind aktuell regionssicher auf EU-Realms beschränkt; Nicht-EU-Regionen oder unbekannte Regionen zeigen keine Flagge. Unterstützte Realm-Sprachgruppen sind `de`, `en`, `fr`, `es`, `ru`, `it` und `pt`.
+
 Das Fenster enthält:
 
 - den erhaltenen Gegenstand
 - die Gegenstandsstufe (GS)
 - den Aufwertungspfad
+- eine Realm-Sprachflagge, falls verfügbar
 - den Spielernamen
 - einen Flüster-Button
 
 Das Loot-Fenster kann manuell über folgende Befehle geöffnet werden: `/mploot` oder `/mplusloot`
 
 Interne Testbefehle wie `/mplootfake` und `/mplootitem` sind in der öffentlichen Release-Version deaktiviert.
+
+Credits zu den Flaggen-Assets sind in `CREDITS.md` dokumentiert.
 
 ## Projektstatus
 

@@ -1,9 +1,9 @@
-## Interface: 120001
+## Interface: 120005
 ## Title: ElvUI M+ Loot
 ## Notes: Shows Mythic+ end chest loot in an ElvUI styled window.
 ## Notes-deDE: Zeigt Mythic+ Endkisten-Loot in einem ElvUI-Fenster.
 ## Author: BeardyBear
-## Version: 0.1.2-alpha
+## Version: 0.2.0-alpha
 ## RequiredDeps: ElvUI
 ## X-ElvUI-Plugin: true
 ## SavedVariables: ElvUIMPlusLootDB

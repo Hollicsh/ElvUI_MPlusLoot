@@ -13,6 +13,8 @@ The addon is designed to provide a simple overview of loot drops during Mythic+ 
 - Supports English and German clients
 - Optional KeystoneLoot wishlist detection
 - Marks KeystoneLoot wishlist items in the loot window
+- Detects bonus loot and marks it as likely not tradeable
+- Shows small EU realm-language flags next to looter names
 - Lightweight and easy to use
 
 ## Screenshots
@@ -47,17 +49,24 @@ KeystoneLoot may add its own tooltip information when installed, but ElvUI M+ Lo
 
 The KeystoneLoot integration is optional and read-only. No KeystoneLoot files or data are copied or modified.
 
+Bonus loot detected from loot messages is treated as likely not tradeable. These items are dimmed in the loot window, and the item tooltip explains why the item is shown that way.
+
+The loot window can show small realm-language flags next to looter names. These flags indicate the realm language or locale, not the player's nationality. Realm-language flags are currently region-safe for EU realms; non-EU or unknown regions show no flag. Supported realm language groups are `de`, `en`, `fr`, `es`, `ru`, `it`, and `pt`.
+
 The window shows:
 
 - the received item
 - the item level
 - the upgrade track
+- a realm-language flag when available
 - the player name
 - a whisper button
 
 The loot window can be opened manually with the following commands: `/mploot` or `/mplusloot`
 
 Internal test commands such as `/mplootfake` and `/mplootitem` are disabled in the public release build.
+
+Flag asset credits are documented in `CREDITS.md`.
 
 ## Project Status
 
