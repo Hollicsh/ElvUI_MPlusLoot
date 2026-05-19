@@ -1216,6 +1216,26 @@ function MPL:RegisterSlashCommands()
             Print(debugMode and T("debugEnabled") or T("debugDisabled"))
         end
 
+        SLASH_MPLUSLOOTFLAGTEST1 = "/mplootflagtest"
+        SlashCmdList["MPLUSLOOTFLAGTEST"] = function(msg)
+            if type(MPL.GetRealmFlagInfo) ~= "function" then
+                Print("[M+ Loot Flag] unavailable=true")
+                return
+            end
+
+            local info = MPL:GetRealmFlagInfo(msg)
+            if info then
+                Print(string.format(
+                    "[M+ Loot Flag] known=true code=%s label=%s",
+                    tostring(info.code or "nil"),
+                    tostring(info.label or "nil")
+                ))
+                return
+            end
+
+            Print("[M+ Loot Flag] known=false code=nil")
+        end
+
         SLASH_MPLUSLOOTTRADE1 = "/mploottrade"
         SlashCmdList["MPLUSLOOTTRADE"] = function(msg)
             if #lootEntries == 0 then
