@@ -2,6 +2,7 @@
 ## Title: ElvUI M+ Loot
 ## Notes: Shows Mythic+ end chest loot in an ElvUI styled window.
 ## Notes-deDE: Zeigt Mythic+ Endkisten-Loot in einem ElvUI-Fenster.
+## Notes-ruRU: Показывает добычу из сундука в конце M+ подземелья в окне, оформленном в стиле ElvUI.
 ## Author: BeardyBear
 ## Version: 0.2.0-alpha
 ## RequiredDeps: ElvUI
